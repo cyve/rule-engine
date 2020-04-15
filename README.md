@@ -26,12 +26,12 @@ namespace App\Price\Rule;
 
 class QuantityRule implements \Cyve\RuleEngine\Rule\RuleInterface
 {
-    public function supports($subject, $context = null): bool
+    public function supports($subject, array $context = []): bool
     {
         return true;
     }
 
-    public function handle($subject, $context = null)
+    public function handle($subject, array $context = [])
     {
         return $subject * ($context['quantity'] ?? 1);
     }
@@ -44,12 +44,12 @@ namespace App\Price\Rule;
 
 class PromoCodeRule implements \Cyve\RuleEngine\Rule\RuleInterface
 {
-    public function supports($subject, $context = null): bool
+    public function supports($subject, array $context = []): bool
     {
         return isset($context['promoCode']);
     }
 
-    public function handle($subject, $context = null)
+    public function handle($subject, array $context = [])
     {
         switch($context['promoCode']){
             case '10_PERCENT': return $subject * .9;

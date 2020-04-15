@@ -22,22 +22,12 @@ class ExpressionRule implements RuleInterface
         $this->expression = $expression;
     }
 
-    /**
-     * @param mixed $subject
-     * @param mixed $context
-     * @return bool
-     */
-    public function supports($subject, $context = null): bool
+    public function supports($subject, array $context = []): bool
     {
         return true;
     }
 
-    /**
-     * @param mixed $subject
-     * @param mixed $context
-     * @return mixed
-     */
-    public function handle($subject, $context = null)
+    public function handle($subject, array $context = [])
     {
         return $this->evaluator->evaluate($this->expression, ['subject' => $subject, 'context' => $context]);
     }

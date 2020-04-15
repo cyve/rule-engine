@@ -4,17 +4,6 @@ namespace Cyve\RuleEngine\Rule;
 
 interface RuleInterface
 {
-    /**
-     * @param mixed $subject
-     * @param mixed $context
-     * @return bool
-     */
-    public function supports($subject, $context = null): bool;
-
-    /**
-     * @param mixed $subject
-     * @param mixed $context
-     * @return mixed
-     */
-    public function handle($subject, $context = null);
+    public function supports($subject, array $context = []): bool;
+    public function handle($subject, array $context = []);
 }
