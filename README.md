@@ -17,7 +17,7 @@ $engine = new RuleEngine([new ExpressionRule('subject * context["quantity"]')]);
 $price = $engine->handle(100, ['quantity' => 2]); // 200
 ```
 
-## Use case: price calculator
+## Use case: price calculator (for Symfony)
 
 ```php
 // src/Price/Rule/QuantityRule.php
@@ -67,15 +67,15 @@ class PriceCalculator extends \Cyve\RuleEngine\Engine\RuleEngine
 {}
 ```
 ```yaml
-# app/config/service.yml
-...
+# config/service.yml
+# @see https://symfony.com/doc/4.4/service_container/tags.html#reference-tagged-services
+App\Price\Rule\:
+    resource: '../src/Price/Rule/*'
+    tags: ['price.rule']
 App\Price\PriceCalculator:
     public: true
-App\Price\Rule\PromoCodeRule:
-    tags: [{ name: 'app.rule', engine: 'App\Price\PriceCalculator', priority: 2 }]
-App\Price\Rule\QuantityRule:
-    tags: [{ name: 'app.rule', engine: 'App\Price\PriceCalculator', priority: 1 }]
-...
+    arguments:
+        - !tagged_iterator price.rule
 ```
 ```php
 // src/Controller/DefaultController.php

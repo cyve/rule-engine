@@ -7,7 +7,7 @@ use Cyve\RuleEngine\Rule\RuleInterface;
 class RuleEngine
 {
     /**
-     * @var iterable
+     * @var iterable<RuleInterface>
      */
     private $rules;
 
@@ -16,19 +16,6 @@ class RuleEngine
         $this->rules = $rules;
     }
 
-    public function addRule(RuleInterface $rule)
-    {
-        @trigger_error(sprintf('Using method %s() is deprecated since version 1.1 and won\'t be supported anymore in 2.0.', __METHOD__), E_USER_DEPRECATED);
-
-        $this->rules[] = $rule;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $subject
-     * @return mixed
-     */
     public function handle($subject, array $context = [])
     {
         foreach($this->rules as $rule){
@@ -39,5 +26,4 @@ class RuleEngine
 
         return $subject;
     }
-
 }
