@@ -33,11 +33,7 @@ class RuleEngineTest extends TestCase
             return $subject + ($context['country'] === 'France' ? 5 : 10);
         }));
 
-        $engine = (new RuleEngine())
-            ->addRule($quantityRule)
-            ->addRule($promoRule)
-            ->addRule($deliveryRule)
-        ;
+        $engine = new RuleEngine([$quantityRule, $promoRule, $deliveryRule]);
         $result = $engine->handle($subject, $context);
 
         $this->assertEquals($expected, $result);

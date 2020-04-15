@@ -24,8 +24,7 @@ public function registerBundles()
 ## Usage
 
 ```php
-$engine = new RuleEngine();
-$engine->addRule(new ExpressionRule('subject * context["quantity"]'));
+$engine = new RuleEngine([new ExpressionRule('subject * context["quantity"]')]);
 $price = $engine->handle(100, ['quantity' => 2]); // 200
 ```
 
