@@ -1,9 +1,9 @@
 <?php
 
-namespace Cyve\RuleEngineBundle\Tests;
+namespace Cyve\RuleEngine\Tests;
 
-use Cyve\RuleEngineBundle\Rule\RuleInterface;
-use Cyve\RuleEngineBundle\Engine\RuleEngine;
+use Cyve\RuleEngine\Rule\RuleInterface;
+use Cyve\RuleEngine\Engine\RuleEngine;
 use PHPUnit\Framework\TestCase;
 
 class RuleEngineTest extends TestCase

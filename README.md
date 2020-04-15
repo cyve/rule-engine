@@ -1,4 +1,4 @@
-# RuleEngineBundle
+# Rule engine
 
 ## Installation:
 
@@ -7,23 +7,12 @@ With [Composer](http://packagist.org):
 composer require cyve/rule-engine-bundle
 ```
 
-## Configuration
-
-```php
-// app/AppKernel.php
-public function registerBundles()
-{
-    return array(
-        // ...
-        new Cyve\RuleEngineBundle\RuleEngineBundle(),
-        // ...
-    );
-}
-```
-
 ## Usage
 
 ```php
+use Cyve\RuleEngine\Engine\RuleEngine;
+use Cyve\RuleEngine\Rule\ExpressionRule;
+
 $engine = new RuleEngine([new ExpressionRule('subject * context["quantity"]')]);
 $price = $engine->handle(100, ['quantity' => 2]); // 200
 ```
@@ -35,7 +24,7 @@ $price = $engine->handle(100, ['quantity' => 2]); // 200
 
 namespace App\Price\Rule;
 
-class QuantityRule implements \Cyve\RuleEngineBundle\Rule\RuleInterface
+class QuantityRule implements \Cyve\RuleEngine\Rule\RuleInterface
 {
     public function supports($subject, $context = null): bool
     {
@@ -53,7 +42,7 @@ class QuantityRule implements \Cyve\RuleEngineBundle\Rule\RuleInterface
 
 namespace App\Price\Rule;
 
-class PromoCodeRule implements \Cyve\RuleEngineBundle\Rule\RuleInterface
+class PromoCodeRule implements \Cyve\RuleEngine\Rule\RuleInterface
 {
     public function supports($subject, $context = null): bool
     {
@@ -74,7 +63,7 @@ class PromoCodeRule implements \Cyve\RuleEngineBundle\Rule\RuleInterface
 
 namespace App\Price;
 
-class PriceCalculator extends \Cyve\RuleEngineBundle\Engine\RuleEngine
+class PriceCalculator extends \Cyve\RuleEngine\Engine\RuleEngine
 {}
 ```
 ```yaml

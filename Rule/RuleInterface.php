@@ -1,6 +1,6 @@
 <?php
 
-namespace Cyve\RuleEngineBundle\Rule;
+namespace Cyve\RuleEngine\Rule;
 
 interface RuleInterface
 {

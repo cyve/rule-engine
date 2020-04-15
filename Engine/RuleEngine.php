@@ -1,8 +1,8 @@
 <?php
 
-namespace Cyve\RuleEngineBundle\Engine;
+namespace Cyve\RuleEngine\Engine;
 
-use Cyve\RuleEngineBundle\Rule\RuleInterface;
+use Cyve\RuleEngine\Rule\RuleInterface;
 
 class RuleEngine
 {

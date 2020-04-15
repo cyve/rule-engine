@@ -1,8 +1,8 @@
 {
     "name": "cyve/rule-engine-bundle",
-    "description": "Symfony Rule Engine Bundle",
+    "description": "Rule Engine service",
     "keywords": ["rule engine"],
-    "type": "symfony-bundle",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
@@ -11,11 +11,12 @@
         }
     ],
     "require": {
-        "php": "^7.1"
+        "php": "^7.1",
+        "symfony/expression-language": "^4.4|^5.0"
 	},
     "autoload": {
         "psr-4": {
-            "Cyve\\RuleEngineBundle\\": ""
+            "Cyve\\RuleEngine\\": ""
         }
     }
 }
