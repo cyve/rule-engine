@@ -4,7 +4,7 @@
 
 With [Composer](http://packagist.org):
 ```sh
-composer require cyve/rule-engine-bundle
+composer require cyve/rule-engine
 ```
 
 ## Usage
