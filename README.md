@@ -24,16 +24,11 @@ $price = $engine->handle(100, ['quantity' => 2]); // 200
 
 namespace App\Price\Rule;
 
-class QuantityRule implements \Cyve\RuleEngine\Rule\RuleInterface
+class QuantityRule
 {
-    public function supports($subject, array $context = []): bool
+    public function __invoke($subject, array $context = [])
     {
-        return true;
-    }
-
-    public function handle($subject, array $context = [])
-    {
-        return $subject * ($context['quantity'] ?? 1);
+        return $subject * $context['quantity'] ?? 1;
     }
 }
 ```

@@ -8,41 +8,32 @@ use PHPUnit\Framework\TestCase;
 
 class RuleEngineTest extends TestCase
 {
-    /**
-     * @dataProvider ruleEngineDataProvider
-     */
-    public function testRuleEngine($subject, $context, $expected)
+    public function test()
     {
-        $quantityRule = $this->createMock(RuleInterface::class);
-        $quantityRule->method('supports')->willReturn(true);
-        $quantityRule->method('handle')->will($this->returnCallback(function($subject, $context){
-            return $subject * $context['quantity'];
-        }));
+        $context = [];
+        $subject = (object) ['status' => null];
 
-        $promoRule = $this->createMock(RuleInterface::class);
-        $promoRule->method('supports')->will($this->returnCallback(function($subject, $context){
-            return $subject > 100;
-        }));
-        $promoRule->method('handle')->will($this->returnCallback(function($subject, $context){
-            return $subject * (1 - $context['promo']);
-        }));
+        $subjectAfterSupportedRule = (object) ['status' => 'supported'];
+        $supportedRule = $this->createMock(RuleInterface::class);
+        $supportedRule->expects($this->once())->method('supports')->with($subject, $context)->willReturn(true);
+        $supportedRule->expects($this->once())->method('handle')->with($subject, $context)->willReturn($subjectAfterSupportedRule);
 
-        $deliveryRule = $this->createMock(RuleInterface::class);
-        $deliveryRule->method('supports')->willReturn(true);
-        $deliveryRule->method('handle')->will($this->returnCallback(function($subject, $context){
-            return $subject + ($context['country'] === 'France' ? 5 : 10);
-        }));
+        $unsupportedRule = $this->createMock(RuleInterface::class);
+        $unsupportedRule->expects($this->once())->method('supports')->with($subjectAfterSupportedRule, $context)->willReturn(false);
+        $unsupportedRule->expects($this->never())->method('handle');
 
-        $engine = new RuleEngine([$quantityRule, $promoRule, $deliveryRule]);
+        $subjectAfterInvokableRule = (object) ['status' => 'invokable'];
+        $invokableRule = $this->getMockBuilder(\stdClass::class)->addMethods(['__invoke'])->getMock();
+        $invokableRule->expects($this->once())->method('__invoke')->with($subjectAfterSupportedRule, $context)->willReturn($subjectAfterInvokableRule);
+
+        $subjectAfterCallableRule = (object) ['status' => 'callable'];
+        $callableRule = function ($subject, $context) use ($subjectAfterCallableRule) {
+            return $subjectAfterCallableRule;
+        };
+
+        $engine = new RuleEngine([$supportedRule, $unsupportedRule, $invokableRule, $callableRule]);
         $result = $engine->handle($subject, $context);
 
-        $this->assertEquals($expected, $result);
-    }
-
-    public function ruleEngineDataProvider()
-    {
-        yield [100, ['quantity' => 2, 'promo' => 0.1, 'country' => 'France'], 185];
-        yield [100, ['quantity' => 2, 'promo' => 0.1, 'country' => 'Germany'], 190];
-        yield [100, ['quantity' => 1, 'promo' => 0.1, 'country' => 'France'], 105];
+        $this->assertEquals($subjectAfterCallableRule, $result);
     }
 }
